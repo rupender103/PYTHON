@@ -1,0 +1,22 @@
+#!/usr/bin/env python3
+import boto3
+#AWS_REGION = "us-east-2"
+EC2_RESOURCE = boto3.resource('ec2')
+#, region_name=AWS_REGION)
+#STS_CLIENT = boto3.client('sts')
+#CURRENT_ACCOUNT_ID = STS_CLIENT.get_caller_identity()['Account']
+snapshots = EC2_RESOURCE.snapshots.filter(
+    Filters=[
+        {
+            'Name': 'tag:Name',
+            'Values': [
+                'snapshot of unassigned volume'
+            ]
+        }
+    ]
+)
+for snapshot in snapshots:
+    print(f'Snapshot {snapshot.id} created for volume {snapshot.volume_id}')
+    snapshot = EC2_RESOURCE.Snapshot(snapshot.id)
+    snapshot.delete()
+    print(f"Snapshot {snapshot.id} deleted")
