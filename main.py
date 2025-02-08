@@ -1,3 +1,4 @@
+# updated for fetch
 #updated from console
 # 🚨 Don't change the code below 👇
 print("Welcome to the Love Calculator!")
